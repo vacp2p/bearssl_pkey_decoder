@@ -9,6 +9,8 @@ const
 
 {.compile: bearPath & DirSep & "bearssl_pkey_decoder.c".}
 
+# This pragma should be the same as in nim-bearssl/decls.nim
+{.pragma: bearSslFunc, cdecl, gcsafe, noSideEffect, raises: [].}
 
 type
   INNER_C_UNION_KEY* {.importc: "no_name", header: "bearssl_x509.h", bycopy.} = object {.
@@ -32,10 +34,10 @@ type
     key_type*: uint8
     key_data*: array[3 * X509_BUFSIZE_SIG, byte]
 
-proc pkeyDecoderInit*(ctx: ptr PkeyDecoderContext) {.cdecl,
+proc pkeyDecoderInit*(ctx: ptr PkeyDecoderContext) {.bearSslFunc,
     importc: "br_pkey_decoder_init", header: "bearssl_pkey_decoder.h".}
 
-proc pkeyDecoderPush*(ctx: ptr PkeyDecoderContext; data: pointer; len: int) {.cdecl,
+proc pkeyDecoderPush*(ctx: ptr PkeyDecoderContext; data: pointer; len: int) {.bearSslFunc,
     importc: "br_pkey_decoder_push", header: "bearssl_pkey_decoder.h".}
 
 
