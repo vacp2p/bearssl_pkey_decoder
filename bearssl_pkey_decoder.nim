@@ -13,8 +13,7 @@ const
 {.pragma: bearSslFunc, cdecl, gcsafe, noSideEffect, raises: [].}
 
 type
-  INNER_C_UNION_KEY* {.importc: "no_name", header: "bearssl_x509.h", bycopy.} = object {.
-      union.}
+  INNER_C_UNION_KEY* {.importc: "no_name", header: "bearssl_x509.h", bycopy, union.} = object
     rsa* {.importc: "rsa".}: RsaPublicKey
     ec* {.importc: "ec".}: EcPublicKey
 
@@ -37,7 +36,7 @@ type
 proc pkeyDecoderInit*(ctx: ptr PkeyDecoderContext) {.bearSslFunc,
     importc: "br_pkey_decoder_init", header: "bearssl_pkey_decoder.h".}
 
-proc pkeyDecoderPush*(ctx: ptr PkeyDecoderContext; data: pointer; len: int) {.bearSslFunc,
+proc pkeyDecoderPush*(ctx: ptr PkeyDecoderContext; data: pointer; len: uint) {.bearSslFunc,
     importc: "br_pkey_decoder_push", header: "bearssl_pkey_decoder.h".}
 
 
