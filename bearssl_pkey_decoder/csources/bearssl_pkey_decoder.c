@@ -101,6 +101,9 @@ br_pkey_decoder_push(br_pkey_decoder_context *ctx,
 	br_pkey_decoder_run(&ctx->cpu);
 }
 
+void skeyDecoderPushShim(void *ctx, const void *data, size_t len) {
+  br_skey_decoder_push((br_skey_decoder_context *)ctx, data, len);
+}
 
 
 static const unsigned char t0_datablock[] PROGMEM = {

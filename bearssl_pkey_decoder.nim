@@ -1,9 +1,9 @@
 import bearssl, strutils
 from os import DirSep
 
-const
-  bearPath = currentSourcePath.rsplit(DirSep, 1)[0] & DirSep &
-             "bearssl_pkey_decoder" & DirSep & "csources"
+const bearPath =
+  currentSourcePath.rsplit(DirSep, 1)[0] & DirSep & "bearssl_pkey_decoder" & DirSep &
+  "csources"
 
 {.compile(bearPath & DirSep & "bearssl_pkey_decoder.c", "-I" & bearPath).}
 
@@ -32,15 +32,23 @@ type
     key_type*: uint8
     key_data*: array[3 * X509_BUFSIZE_SIG, byte]
 
-proc pkeyDecoderInit*(ctx: ptr PkeyDecoderContext) {.bearSslFunc,
-                                importc: "br_pkey_decoder_init".}
+proc pkeyDecoderInit*(
+  ctx: ptr PkeyDecoderContext
+) {.bearSslFunc, importc: "br_pkey_decoder_init".}
 
-proc pkeyDecoderPush*(ctx: ptr PkeyDecoderContext; data: pointer; len: uint) {.bearSslFunc,
-                                                          importc: "br_pkey_decoder_push".}
+proc pkeyDecoderPush*(
+  ctx: ptr PkeyDecoderContext, data: pointer, len: uint
+) {.bearSslFunc, importc: "br_pkey_decoder_push".}
+
+proc skeyDecoderPushShim*(
+  ctx: pointer, data: pointer, len: uint
+) {.cdecl, noSideEffect, gcsafe, importc.}
 
 proc pkeyDecoderLastError*(ctx: ptr PkeyDecoderContext): cint =
-  if ctx.err != 0: return ctx.err
-  if ctx.key_type == 0: return ERR_X509_TRUNCATED
+  if ctx.err != 0:
+    return ctx.err
+  if ctx.key_type == 0:
+    return ERR_X509_TRUNCATED
 
 proc pkeyDecoderKeyType*(ctx: ptr PkeyDecoderContext): cint =
   if ctx.err == 0:
