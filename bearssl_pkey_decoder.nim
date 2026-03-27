@@ -37,11 +37,11 @@ proc pkeyDecoderInit*(
 ) {.bearSslFunc, importc: "br_pkey_decoder_init".}
 
 proc pkeyDecoderPush*(
-  ctx: ptr PkeyDecoderContext, data: pointer, len: uint
+  ctx: ptr PkeyDecoderContext, data: pointer, len: csize_t
 ) {.bearSslFunc, importc: "br_pkey_decoder_push".}
 
 proc skeyDecoderPushShim*(
-  ctx: pointer, data: pointer, len: uint
+  ctx: pointer, data: pointer, len: csize_t
 ) {.cdecl, noSideEffect, gcsafe, importc.}
 
 proc pkeyDecoderLastError*(ctx: ptr PkeyDecoderContext): cint =
