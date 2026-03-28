@@ -9,5 +9,5 @@ license       = "MIT"
 
 # Dependencies
 
-requires "nim >= 0.19.0"
-requires "bearssl"
+requires "nim >= 1.6.0"
+requires "bearssl >= 0.2.7"
